@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche UCC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .loading-text {
+            overflow: hidden;
+            border-right: 2px solid #3b82f6;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 2s steps(30, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #3b82f6 }
+        }
+        
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+<body ng-app="searchApp" ng-controller="SearchController" class="bg-gray-50 min-h-screen">
+    <!-- Page de chargement -->
+    <div id="loadingScreen" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="text-center">
+            <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+            <h1 class="text-2xl font-semibold text-gray-800 loading-text">L'université plus simplement</h1>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div id="mainContent" class="hidden opacity-0 transition-opacity duration-500">
+        <div class="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-screen">
+            <!-- Titre -->
+            <h1 class="text-3xl font-bold text-gray-800 mb-8">Recherche UCC</h1>
+            
+            <!-- Barre de recherche -->
+            <div class="w-full max-w-lg relative">
+                <input 
+                    type="text" 
+                    ng-model="searchQuery" 
+                    ng-init="searchQuery = 'Sociologie L1'" 
+                    placeholder="Sociologie L1" 
+                    class="search-input w-full px-6 py-4 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-all duration-300 text-lg shadow-sm"
+                    ng-focus="onSearchFocus()"
+                >
+                <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- Liens en bas de la barre de recherche -->
+            <div class="mt-6 flex space-x-8">
+                <a href="#" class="text-blue-600 hover:text-blue-800 transition-colors duration-300 font-medium">Impression de TP</a>
+                <a href="https://roifidele.com" target="_blank" class="text-blue-600 hover:text-blue-800 transition-colors duration-300 font-medium">roifidele.com</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration AngularJS
+        angular.module('searchApp', [])
+            .controller('SearchController', ['$scope', function($scope) {
+                $scope.searchQuery = 'Sociologie L1';
+                $scope.onSearchFocus = function() {
+                    if ($scope.searchQuery === 'Sociologie L1') {
+                        $scope.searchQuery = '';
+                    }
+                };
+            }]);
+        
+        // JavaScript pour la page de chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simuler un temps de chargement
+            setTimeout(function() {
+                const loadingScreen = document.getElementById('loadingScreen');
+                const mainContent = document.getElementById('mainContent');
+                
+                // Faire disparaître l'écran de chargement
+                loadingScreen.style.opacity = '0';
+                
+                // Après la transition, afficher le contenu principal
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                    mainContent.classList.remove('hidden');
+                    
+                    // Animation d'apparition du contenu principal
+                    setTimeout(function() {
+                        mainContent.classList.remove('opacity-0');
+                    }, 50);
+                }, 500);
+            }, 2500); // Durée de l'écran de chargement (2.5 secondes)
+        });
+    </script>
+</body>
+</html>
