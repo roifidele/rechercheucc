@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impression - UCC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .loading-text {
+            overflow: hidden;
+            border-right: 2px solid #3b82f6;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 2s steps(30, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #3b82f6 }
+        }
+        
+        .option-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sub-option {
+            transition: all 0.2s ease;
+        }
+        
+        .sub-option:hover {
+            background-color: #f8fafc;
+            transform: translateX(5px);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-down {
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 200px; }
+        }
+    </style>
+</head>
+<body ng-app="impressionApp" ng-controller="ImpressionController" class="bg-gray-50 min-h-screen">
+    <!-- Page de chargement -->
+    <div id="loadingScreen" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="text-center">
+            <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+            <h1 class="text-2xl font-semibold text-gray-800 loading-text">L'université plus simplement</h1>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div id="mainContent" class="hidden opacity-0 transition-opacity duration-500">
+        <div class="container mx-auto px-4 py-8 flex flex-col items-center justify-start min-h-screen">
+            <!-- Titre -->
+            <h1 class="text-3xl font-bold text-gray-800 mb-2 mt-8">Services d'Impression</h1>
+            <p class="text-gray-600 mb-8">Choisissez le service dont vous avez besoin</p>
+            
+            <!-- Options principales -->
+            <div class="w-full max-w-2xl space-y-6">
+                <!-- Option 1 -->
+                <div class="option-card bg-white rounded-xl shadow-md overflow-hidden fade-in">
+                    <div class="p-6" ng-click="toggleOption(1)">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h2 class="text-xl font-semibold text-gray-800">Impression de TP/Document + Livraison</h2>
+                                <p class="text-gray-600 mt-1">Imprimez vos documents et recevez-les où vous voulez</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 transform transition-transform" 
+                                 ng-class="{'rotate-180': option1Open}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Contenu caché Option 1 -->
+                    <div class="border-t border-gray-100 overflow-hidden" 
+                         ng-class="{'max-h-0': !option1Open, 'max-h-40': option1Open}" 
+                         style="transition: max-height 0.3s ease-out;">
+                        <div class="p-6 pt-0 slide-down">
+                            <p class="text-gray-700 mb-4">Envoyez-nous votre document à imprimer et nous vous le livrons directement à l'université.</p>
+                            <a ng-href="{{getWhatsAppUrl(1)}}" target="_blank" 
+                               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893-.001-3.189-1.262-6.187-3.55-8.438"/>
+                                </svg>
+                                Contacter sur WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Option 2 -->
+                <div class="option-card bg-white rounded-xl shadow-md overflow-hidden fade-in" style="animation-delay: 0.1s;">
+                    <div class="p-6" ng-click="toggleOption(2)">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h2 class="text-xl font-semibold text-gray-800">Accompagnement pour le TP + Impression + Livraison</h2>
+                                <p class="text-gray-600 mt-1">Nous vous aidons dans la résolution de votre TP avant de l'imprimer et de le livrer directement à l'université</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 transform transition-transform" 
+                                 ng-class="{'rotate-180': option2Open}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Contenu caché Option 2 -->
+                    <div class="border-t border-gray-100 overflow-hidden" 
+                         ng-class="{'max-h-0': !option2Open, 'max-h-40': option2Open}" 
+                         style="transition: max-height 0.3s ease-out;">
+                        <div class="p-6 pt-0 slide-down">
+                            <p class="text-gray-700 mb-4">Nous vous accompagnons dans la résolution de votre TP avant impression et livraison.</p>
+                            <a ng-href="{{getWhatsAppUrl(2)}}" target="_blank" 
+                               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893-.001-3.189-1.262-6.187-3.55-8.438"/>
+                                </svg>
+                                Contacter sur WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Option 3 -->
+                <div class="option-card bg-white rounded-xl shadow-md overflow-hidden fade-in" style="animation-delay: 0.2s;">
+                    <div class="p-6" ng-click="toggleOption(3)">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h2 class="text-xl font-semibold text-gray-800">Logistique Intellectuelle</h2>
+                                <p class="text-gray-600 mt-1">Services de montage et rédaction professionnelle</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 transform transition-transform" 
+                                 ng-class="{'rotate-180': option3Open}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Contenu caché Option 3 -->
+                    <div class="border-t border-gray-100 overflow-hidden" 
+                         ng-class="{'max-h-0': !option3Open, 'max-h-96': option3Open}" 
+                         style="transition: max-height 0.3s ease-out;">
+                        <div class="p-6 pt-0 slide-down">
+                            <p class="text-gray-700 mb-4">Choisissez le service dont vous avez besoin :</p>
+                            <div class="space-y-3">
+                                <div ng-repeat="subOption in subOptions" 
+                                     class="sub-option p-3 border border-gray-200 rounded-lg cursor-pointer"
+                                     ng-click="selectSubOption(subOption)">
+                                    <div class="flex justify-between items-center">
+                                        <span class="font-medium text-gray-800">{{subOption.name}}</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Liens en bas de page -->
+            <div class="mt-12 flex space-x-8">
+                <a href="index.html" class="text-blue-600 hover:text-blue-800 transition-colors duration-300 font-medium">← Retour à la recherche</a>
+                <a href="https://roifidele.com" target="_blank" class="text-blue-600 hover:text-blue-800 transition-colors duration-300 font-medium">roifidele.com</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration AngularJS
+        angular.module('impressionApp', [])
+            .controller('ImpressionController', ['$scope', function($scope) {
+                // États des options
+                $scope.option1Open = false;
+                $scope.option2Open = false;
+                $scope.option3Open = false;
+                
+                // Sous-options pour l'option 3
+                $scope.subOptions = [
+                    { id: 1, name: 'Montage vidéo' },
+                    { id: 2, name: 'Montage Audio' },
+                    { id: 3, name: 'CV' },
+                    { id: 4, name: 'Lettre de motivation' }
+                ];
+                
+                // Fonction pour basculer l'état d'une option
+                $scope.toggleOption = function(optionNumber) {
+                    if (optionNumber === 1) {
+                        $scope.option1Open = !$scope.option1Open;
+                        // Fermer les autres options
+                        $scope.option2Open = false;
+                        $scope.option3Open = false;
+                    } else if (optionNumber === 2) {
+                        $scope.option2Open = !$scope.option2Open;
+                        // Fermer les autres options
+                        $scope.option1Open = false;
+                        $scope.option3Open = false;
+                    } else if (optionNumber === 3) {
+                        $scope.option3Open = !$scope.option3Open;
+                        // Fermer les autres options
+                        $scope.option1Open = false;
+                        $scope.option2Open = false;
+                    }
+                };
+                
+                // Fonction pour générer l'URL WhatsApp
+                $scope.getWhatsAppUrl = function(optionNumber) {
+                    const phoneNumber = '+243978058289';
+                    let message = '';
+                    
+                    if (optionNumber === 1) {
+                        message = 'Écrivez votre Nom Postnom Prénom Faculté et Promotion et envoyé le document à imprimer';
+                    } else if (optionNumber === 2) {
+                        message = 'Écrivez votre Nom Postnom Prénom Faculté et Promotion et envoyé l\'objet du TP à résoudre et à imprimer';
+                    }
+                    
+                    const encodedMessage = encodeURIComponent(message);
+                    return `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+                };
+                
+                // Fonction pour sélectionner une sous-option
+                $scope.selectSubOption = function(subOption) {
+                    const phoneNumber = '+243978058289';
+                    const message = `Je suis intéressé(e) par le service: ${subOption.name}`;
+                    const encodedMessage = encodeURIComponent(message);
+                    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+                    
+                    // Ouvrir WhatsApp dans un nouvel onglet
+                    window.open(whatsappUrl, '_blank');
+                };
+            }]);
+        
+        // JavaScript pour la page de chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simuler un temps de chargement
+            setTimeout(function() {
+                const loadingScreen = document.getElementById('loadingScreen');
+                const mainContent = document.getElementById('mainContent');
+                
+                // Faire disparaître l'écran de chargement
+                loadingScreen.style.opacity = '0';
+                
+                // Après la transition, afficher le contenu principal
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                    mainContent.classList.remove('hidden');
+                    
+                    // Animation d'apparition du contenu principal
+                    setTimeout(function() {
+                        mainContent.classList.remove('opacity-0');
+                    }, 50);
+                }, 500);
+            }, 2500); // Durée de l'écran de chargement (2.5 secondes)
+        });
+    </script>
+</body>
+</html>
