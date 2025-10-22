@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impression by ROI FIDELE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fefefe;
+        }
+        
+        .luxe-font {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .loading-text {
+            overflow: hidden;
+            border-right: 2px solid #c9a96e;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 2s steps(30, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #c9a96e }
+        }
+        
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            background: white;
+            border: 1px solid #f0f0f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #c9a96e, #d4b87a, #c9a96e);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+        }
+        
+        .gold-accent {
+            color: #c9a96e;
+        }
+        
+        .gold-bg {
+            background: #c9a96e;
+        }
+        
+        .price-tag {
+            background: linear-gradient(135deg, #c9a96e, #b89446);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(201, 169, 110, 0.3);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-down {
+            animation: slideDown 0.5s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 200px; }
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23c9a96e" opacity="0.03"><polygon points="50,0 61,35 98,35 68,57 79,92 50,70 21,92 32,57 2,35 39,35" /></svg>');
+            background-size: 200px;
+        }
+        
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+        
+        .whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+        }
+        
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+            margin: 2rem 0;
+        }
+        
+        .icon-container {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #f8f5f0, #f0ebe1);
+            border: 2px solid #e8e1d1;
+            color: #c9a96e;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #c9a96e;
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .footer {
+            background: #1a1a1a;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23c9a96e" opacity="0.03"><polygon points="50,0 61,35 98,35 68,57 79,92 50,70 21,92 32,57 2,35 39,35" /></svg>');
+            background-size: 150px;
+        }
+    </style>
+</head>
+<body ng-app="servicesApp" ng-controller="ServicesController" class="bg-white min-h-screen">
+    <!-- Page de chargement -->
+    <div id="loadingScreen" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="text-center">
+            <div class="w-16 h-16 border-4 gold-bg border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+            <h1 class="text-2xl font-semibold text-gray-800 loading-text">L'université plus simplement</h1>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div id="mainContent" class="hidden opacity-0 transition-opacity duration-500">
+        <!-- En-tête luxueux -->
+        <header class="hero-section text-white py-20">
+            <div class="container mx-auto px-4 text-center relative z-10">
+                <h1 class="text-5xl md:text-6xl luxe-font mb-6">Impression by ROI FIDELE</h1>
+                <div class="w-24 h-1 gold-bg mx-auto mb-8"></div>
+                <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">Plus d'inquiétude quant à la remise de vos travaux pratiques,<br> nous nous occupons de tout avec excellence</p>
+                <div class="flex justify-center space-x-4 mt-10">
+                    <a href="#services" class="px-6 py-3 border-2 border-white text-white hover:bg-white hover:text-gray-900 transition-all duration-300 rounded-lg font-medium">Nos Services</a>
+                    <a href="#contact" class="px-6 py-3 gold-bg text-white hover:bg-amber-600 transition-all duration-300 rounded-lg font-medium shadow-lg">Nous Contacter</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Section des services -->
+        <section id="services" class="container mx-auto px-4 py-16">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl luxe-font text-gray-800 mb-4">Services Exclusifs</h2>
+                <div class="divider max-w-md mx-auto"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">Des solutions complètes pour vos besoins académiques, alliant qualité, rapidité et professionnalisme.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                
+                <!-- Service 1 -->
+                <div class="service-card rounded-2xl overflow-hidden fade-in">
+                    <div class="p-8">
+                        <div class="icon-container">
+                            <i class="fas fa-print text-3xl"></i>
+                        </div>
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl luxe-font text-gray-800 mb-2">Impression & Livraison</h3>
+                            <span class="price-tag">350 CDF / page</span>
+                        </div>
+                        <p class="text-gray-600 text-center mb-6">Impression de qualité supérieure et livraison directe à l'université.</p>
+                        <div class="text-center mb-4">
+                            <button ng-click="toggleService(1)" class="text-gold-accent font-medium flex items-center justify-center mx-auto">
+                                <span>Commander</span>
+                                <i class="fas fa-chevron-down ml-2 transform transition-transform" ng-class="{'rotate-180': service1Open}"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Détails cachés Service 1 -->
+                    <div class="border-t border-gray-100 overflow-hidden bg-gray-50" 
+                         ng-class="{'max-h-0': !service1Open, 'max-h-40': service1Open}" 
+                         style="transition: max-height 0.4s ease-out;">
+                        <div class="p-6 slide-down">
+                            <p class="text-gray-700 mb-4 text-center">Service d'impression professionnel avec livraison garantie.</p>
+                            <a ng-href="{{getWhatsAppUrl(1)}}" target="_blank" 
+                               class="whatsapp-btn inline-flex items-center justify-center w-full px-4 py-3 text-sm font-medium rounded-lg text-white">
+                                <i class="fab fa-whatsapp text-lg mr-2"></i>
+                                Commander via WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="service-card rounded-2xl overflow-hidden fade-in" style="animation-delay: 0.1s;">
+                    <div class="p-8">
+                        <div class="icon-container">
+                            <i class="fas fa-graduation-cap text-3xl"></i>
+                        </div>
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl luxe-font text-gray-800 mb-2">Accompagnement TP</h3>
+                            <div>
+                                <span class="price-tag">450 CDF / page</span>
+                                <span class="block text-sm text-green-600 font-semibold mt-2">Accompagnement inclus</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-center mb-6">Aide à la résolution, impression et livraison à l'université.</p>
+                        <div class="text-center mb-4">
+                            <button ng-click="toggleService(2)" class="text-gold-accent font-medium flex items-center justify-center mx-auto">
+                                <span>Commander</span>
+                                <i class="fas fa-chevron-down ml-2 transform transition-transform" ng-class="{'rotate-180': service2Open}"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Détails cachés Service 2 -->
+                    <div class="border-t border-gray-100 overflow-hidden bg-gray-50" 
+                         ng-class="{'max-h-0': !service2Open, 'max-h-40': service2Open}" 
+                         style="transition: max-height 0.4s ease-out;">
+                        <div class="p-6 slide-down">
+                            <p class="text-gray-700 mb-4 text-center">Bénéficiez d'un accompagnement personnalisé pour vos TP.</p>
+                            <a ng-href="{{getWhatsAppUrl(2)}}" target="_blank" 
+                               class="whatsapp-btn inline-flex items-center justify-center w-full px-4 py-3 text-sm font-medium rounded-lg text-white">
+                                <i class="fab fa-whatsapp text-lg mr-2"></i>
+                                Commander via WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="service-card rounded-2xl overflow-hidden fade-in" style="animation-delay: 0.2s;">
+                    <div class="p-8">
+                        <div class="icon-container">
+                            <i class="fas fa-film text-3xl"></i>
+                        </div>
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl luxe-font text-gray-800 mb-2">Montage Multimédia</h3>
+                            <span class="price-tag">10$ / projet</span>
+                        </div>
+                        <p class="text-gray-600 text-center mb-6">Montage professionnel audio et vidéo pour vos présentations.</p>
+                        <div class="text-center mb-4">
+                            <button ng-click="toggleService(3)" class="text-gold-accent font-medium flex items-center justify-center mx-auto">
+                                <span>Commander</span>
+                                <i class="fas fa-chevron-down ml-2 transform transition-transform" ng-class="{'rotate-180': service3Open}"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Détails cachés Service 3 -->
+                    <div class="border-t border-gray-100 overflow-hidden bg-gray-50" 
+                         ng-class="{'max-h-0': !service3Open, 'max-h-40': service3Open}" 
+                         style="transition: max-height 0.4s ease-out;">
+                        <div class="p-6 slide-down">
+                            <p class="text-gray-700 mb-4 text-center">Des montages créatifs et professionnels pour valoriser vos projets.</p>
+                            <a ng-href="{{getWhatsAppUrl(3)}}" target="_blank" 
+                               class="whatsapp-btn inline-flex items-center justify-center w-full px-4 py-3 text-sm font-medium rounded-lg text-white">
+                                <i class="fab fa-whatsapp text-lg mr-2"></i>
+                                Commander via WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section avantages -->
+        <section class="bg-gray-50 py-16">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl luxe-font text-gray-800 mb-4">Pourquoi Nous Choisir</h2>
+                    <div class="divider max-w-md mx-auto"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="text-center p-6">
+                        <div class="icon-container mx-auto mb-4">
+                            <i class="fas fa-shield-alt text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Qualité Garantie</h3>
+                        <p class="text-gray-600">Nous nous engageons à fournir un travail de qualité supérieure pour tous vos projets.</p>
+                    </div>
+                    
+                    <div class="text-center p-6">
+                        <div class="icon-container mx-auto mb-4">
+                            <i class="fas fa-clock text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Livraison Rapide</h3>
+                        <p class="text-gray-600">Respect des délais avec une livraison express directement à l'université.</p>
+                    </div>
+                    
+                    <div class="text-center p-6">
+                        <div class="icon-container mx-auto mb-4">
+                            <i class="fas fa-headset text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Support 24/7</h3>
+                        <p class="text-gray-600">Une équipe disponible pour répondre à toutes vos questions et demandes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pied de page -->
+        <footer id="contact" class="footer text-white py-12 relative z-10">
+            <div class="container mx-auto px-4 text-center">
+                <h3 class="text-2xl luxe-font mb-6">Impression by ROI FIDELE</h3>
+                <p class="text-gray-300 max-w-2xl mx-auto mb-8">Votre partenaire de confiance pour tous vos besoins académiques. Excellence, rapidité et professionnalisme.</p>
+                
+                <div class="flex justify-center space-x-8 mb-8">
+                    <a href="index.html" class="nav-link text-gray-300 hover:text-white">Impression by ROI FIDELE</a>
+                    <a href="https://roifidele.com" target="_blank" class="nav-link text-gray-300 hover:text-white">roifidele.com</a>
+                </div>
+                
+                <div class="flex justify-center space-x-6 mb-8">
+                    <a href="https://wa.me/243816542274" target="_blank" class="bg-green-600 w-12 h-12 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors">
+                        <i class="fab fa-whatsapp text-xl"></i>
+                    </a>
+                </div>
+                
+                <p class="text-gray-400 text-sm">© 2025 Impression by ROI FIDELE. Tous droits réservés.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Configuration AngularJS
+        angular.module('servicesApp', [])
+            .controller('ServicesController', ['$scope', function($scope) {
+                // États des services
+                $scope.service1Open = false;
+                $scope.service2Open = false;
+                $scope.service3Open = false;
+                
+                // Fonction pour basculer l'état d'un service
+                $scope.toggleService = function(serviceNumber) {
+                    if (serviceNumber === 1) {
+                        $scope.service1Open = !$scope.service1Open;
+                        // Fermer les autres services
+                        $scope.service2Open = false;
+                        $scope.service3Open = false;
+                    } else if (serviceNumber === 2) {
+                        $scope.service2Open = !$scope.service2Open;
+                        // Fermer les autres services
+                        $scope.service1Open = false;
+                        $scope.service3Open = false;
+                    } else if (serviceNumber === 3) {
+                        $scope.service3Open = !$scope.service3Open;
+                        // Fermer les autres services
+                        $scope.service1Open = false;
+                        $scope.service2Open = false;
+                    }
+                };
+                
+                // Fonction pour générer l'URL WhatsApp
+                $scope.getWhatsAppUrl = function(serviceNumber) {
+                    const phoneNumber = '+243816542274';
+                    let message = '';
+                    
+                    if (serviceNumber === 1) {
+                        message = 'Bonjour, je suis intéressé(e) par le service IMPRESSION + LIVRAISON (350 CDF/page). Merci de me contacter pour discuter de mes besoins.';
+                    } else if (serviceNumber === 2) {
+                        message = 'Bonjour, je suis intéressé(e) par le service ACCOMPAGNEMENT TP + LIVRAISON (450 CDF/page). J\'aimerais bénéficier de votre accompagnement pour mon travail pratique.';
+                    } else if (serviceNumber === 3) {
+                        message = 'Bonjour, je suis intéressé(e) par le service MONTAGE AUDIO & VIDÉO (10$). Merci de me contacter pour discuter de mon projet multimédia.';
+                    }
+                    
+                    const encodedMessage = encodeURIComponent(message);
+                    return `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+                };
+            }]);
+        
+        // JavaScript pour la page de chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simuler un temps de chargement
+            setTimeout(function() {
+                const loadingScreen = document.getElementById('loadingScreen');
+                const mainContent = document.getElementById('mainContent');
+                
+                // Faire disparaître l'écran de chargement
+                loadingScreen.style.opacity = '0';
+                
+                // Après la transition, afficher le contenu principal
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                    mainContent.classList.remove('hidden');
+                    
+                    // Animation d'apparition du contenu principal
+                    setTimeout(function() {
+                        mainContent.classList.remove('opacity-0');
+                    }, 50);
+                }, 500);
+            }, 2500); // Durée de l'écran de chargement (2.5 secondes)
+        });
+    </script>
+</body>
+</html>
